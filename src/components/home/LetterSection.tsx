@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Send, Heart, Star, Flower } from 'lucide-react';
+import { ArrowLeft, Send, Heart, Star, Flower, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SiteSettings } from '@/types';
 

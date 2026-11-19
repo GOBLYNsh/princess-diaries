@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Heart, Sparkles, Check } from 'lucide-react';
+import { ArrowLeft, Heart, Sparkles, Check, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Reason } from '@/types';
 
@@ -129,7 +129,7 @@ export default function ReasonsSection({ reasons, onBack, onComplete }: ReasonsS
           {/* Decorative header */}
           <div className="flex items-center justify-center gap-2 mb-6">
             <Star size={20} className="text-secondary-400" />
-            <Heart size={16} className="text-pink-300" fill={0.3} />
+            <Heart size={16} className="text-pink-300" fill="currentColor" />
             <Sparkles size={16} className="text-primary-300" />
           </div>
 

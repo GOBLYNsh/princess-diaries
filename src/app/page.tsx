@@ -53,7 +53,7 @@ async function getSurpriseMessages() {
     return {
       heart_click: 'A heart full of love for you! 💖',
       gift_open: 'Surprise! Everything about you is special!',
-      bouquet_interaction: 'These are for all the beautiful moments we've shared...'
+      bouquet_interaction: "These are for all the beautiful moments we've shared..."
     };
   }
 

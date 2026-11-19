@@ -83,7 +83,7 @@ export default function TimelineSection({ recipientName, onBack, onComplete }: T
         </motion.h1>
 
         <div className="w-24" />
-      </motion.h1>
+      </div>
 
       {/* Timeline navigation */}
       <div className="w-full max-w-4xl mx-auto mb-12 z-10">
@@ -206,22 +206,25 @@ export default function TimelineSection({ recipientName, onBack, onComplete }: T
                       </div>
                     </motion.div>
                   )}
-        </div>
-      ))}
-    </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </AnimatePresence>
 
-    {/* Continue button */}
-    <motion.button
-      onClick={onComplete}
-      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-primary-400 to-secondary-500 hover:from-primary-500 hover:to-secondary-600 text-white px-8 py-4 rounded-full shadow-2xl font-body text-lg transition-all duration-300 hover:scale-105"
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.95 }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 3 }}
-    >
-      Continue to Surprises
-    </motion.div>
+      {/* Continue button */}
+      <motion.button
+        onClick={onComplete}
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-primary-400 to-secondary-500 hover:from-primary-500 hover:to-secondary-600 text-white px-8 py-4 rounded-full shadow-2xl font-body text-lg transition-all duration-300 hover:scale-105"
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 3 }}
+      >
+        Continue to Surprises
+      </motion.button>
 
       {/* Event detail modal */}
       <AnimatePresence>

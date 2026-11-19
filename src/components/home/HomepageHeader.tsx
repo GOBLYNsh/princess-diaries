@@ -157,7 +157,7 @@ export default function HomepageHeader({
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <Heart className="text-primary-400" size={30} fill={0.3} />
+        <Heart className="text-primary-400" size={30} fill="currentColor" />
       </motion.div>
     </div>
   );

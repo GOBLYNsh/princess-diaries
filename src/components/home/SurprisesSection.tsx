@@ -171,7 +171,7 @@ export default function SurprisesSection({
             </div>
 
             <div className="grid grid-cols-3 gap-2">
-              {[...5].map((_, i) => (
+              {[...Array(5)].map((_, i) => (
                 <motion.button
                   key={i}
                   onClick={handleHeartClick}
@@ -188,7 +188,7 @@ export default function SurprisesSection({
                 </motion.button>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           <AnimatePresence>
             {heartClicks >= 3 && (
@@ -232,7 +232,7 @@ export default function SurprisesSection({
         >
           <div className="flex items-center gap-2">
             <div className="flex gap-1">
-              {[...3].map((_, i) => (
+              {[...Array(3)].map((_, i) => (
                 <motion.div
                   key={i}
                   className="w-2 h-2 bg-secondary-400 rounded-full"

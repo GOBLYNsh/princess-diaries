@@ -130,9 +130,9 @@ export default function Envelope({
                   {content}
                 </p>
                 <div className="flex justify-center gap-2 mb-6">
-                  <Heart size={16} className="text-pink-400" fill={0.3} />
-                  <Heart size={16} className="text-pink-400" fill={0.3} />
-                  <Heart size={16} className="text-pink-400" fill={0.3} />
+                  <Heart size={16} className="text-pink-400" fill="currentColor" />
+                  <Heart size={16} className="text-pink-400" fill="currentColor" />
+                  <Heart size={16} className="text-pink-400" fill="currentColor" />
                 </div>
               </div>
 
