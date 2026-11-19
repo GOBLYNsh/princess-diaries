@@ -60,8 +60,8 @@ export default function ReasonsSection({ reasons, onBack, onComplete }: ReasonsS
             key={i}
             className="absolute text-pink-200/40"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${(i * 29 + 7) % 100}%`,
+              top: `${(i * 37 + 11) % 100}%`,
               fontSize: `${16 + (i % 5) * 4}px`,
             }}
             animate={{

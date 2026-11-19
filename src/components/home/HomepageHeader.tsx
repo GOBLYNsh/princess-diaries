@@ -60,9 +60,9 @@ export default function HomepageHeader({
             key={i}
             className="absolute text-pink-200/30"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              fontSize: `${10 + Math.random() * 20}px`,
+              left: `${(i * 19 + 5) % 100}%`,
+              top: `${(i * 31 + 13) % 100}%`,
+              fontSize: `${10 + (i % 5) * 4}px`,
             }}
             animate={{
               y: [0, -30, 0],
@@ -70,12 +70,12 @@ export default function HomepageHeader({
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: 4 + Math.random() * 4,
+              duration: 4 + (i % 4),
               repeat: Infinity,
               ease: 'easeInOut',
             }}
           >
-            {Math.random() > 0.5 ? '💖' : '⭐'}
+            {i % 2 === 0 ? '💖' : '⭐'}
           </motion.div>
         ))}
       </div>

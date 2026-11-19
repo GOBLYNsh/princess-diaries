@@ -57,8 +57,8 @@ export default function SurprisesSection({
             key={i}
             className="absolute text-pink-200/40"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${(i * 17 + 11) % 100}%`,
+              top: `${(i * 23 + 7) % 100}%`,
               fontSize: `${14 + (i % 8) * 3}px`,
             }}
             animate={{

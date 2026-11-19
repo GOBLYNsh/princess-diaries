@@ -53,9 +53,9 @@ export default function Envelope({
             key={i}
             className="absolute text-pink-200/40"
             style={{
-              left: `${Math.random() * 100}%`,
+              left: `${(i * 23 + 9) % 100}%`,
               top: `-10%`,
-              fontSize: `${20 + Math.random() * 30}px`,
+              fontSize: `${20 + (i % 3) * 10}px`,
             }}
             animate={{
               y: [0, -100, 0],
@@ -63,7 +63,7 @@ export default function Envelope({
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: 4 + Math.random() * 2,
+              duration: 4 + (i % 3),
               repeat: Infinity,
               ease: 'easeInOut',
               delay: i * 0.2,

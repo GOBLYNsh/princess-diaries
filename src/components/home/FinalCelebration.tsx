@@ -1,12 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 
 interface FinalCelebrationProps {
   recipientName: string;
   onComplete: () => void;
+}
+
+// Deterministic pseudo-random using index
+function seeded(i: number, salt: number, mod: number) {
+  return ((i * 1664525 + salt * 1013904223) & 0x7fffffff) % mod;
 }
 
 export default function FinalCelebration({ recipientName, onComplete }: FinalCelebrationProps) {
@@ -26,6 +31,8 @@ export default function FinalCelebration({ recipientName, onComplete }: FinalCel
     return () => clearTimeout(timer);
   }, []);
 
+  const confettiColors = ['#e86aa8', '#f89449', '#e04597', '#d23485', '#ffbe2a', '#eab324'];
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {/* Background gradient */}
@@ -38,9 +45,9 @@ export default function FinalCelebration({ recipientName, onComplete }: FinalCel
             key={i}
             className="absolute text-pink-200/60"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              fontSize: `${10 + Math.random() * 20}px`,
+              left: `${seeded(i, 1, 100)}%`,
+              top: `${seeded(i, 2, 100)}%`,
+              fontSize: `${10 + (i % 5) * 4}px`,
             }}
             animate={{
               y: [0, -50, 0],
@@ -49,10 +56,10 @@ export default function FinalCelebration({ recipientName, onComplete }: FinalCel
               scale: [0.5, 1, 0.5],
             }}
             transition={{
-              duration: 4 + Math.random() * 4,
+              duration: 4 + (i % 4),
               repeat: Infinity,
               ease: 'easeInOut',
-              delay: Math.random() * 10,
+              delay: (i % 10),
             }}
           >
             {['💖', '⭐', '🌸', '💫', '🌟', '💕', '✨', '🌺'][i % 8]}
@@ -127,7 +134,7 @@ export default function FinalCelebration({ recipientName, onComplete }: FinalCel
                     key={i}
                     className="absolute text-pink-300/60 text-2xl"
                     style={{
-                      left: `${Math.random() * 100}%`,
+                      left: `${seeded(i, 3, 100)}%`,
                       top: `-20%`,
                     }}
                     animate={{
@@ -136,8 +143,8 @@ export default function FinalCelebration({ recipientName, onComplete }: FinalCel
                       opacity: [0, 1, 0],
                     }}
                     transition={{
-                      duration: 2 + Math.random() * 3,
-                      delay: Math.random() * 5,
+                      duration: 2 + (i % 3),
+                      delay: (i % 5),
                       ease: 'linear',
                       repeat: Infinity,
                     }}
@@ -164,7 +171,7 @@ export default function FinalCelebration({ recipientName, onComplete }: FinalCel
         </motion.div>
       )}
 
-      {/* Confetti effect */}
+      {/* Confetti effect - only on client after mount */}
       <AnimatePresence>
         {showConfetti && (
           <div className="fixed inset-0 pointer-events-none z-50">
@@ -173,24 +180,17 @@ export default function FinalCelebration({ recipientName, onComplete }: FinalCel
                 key={i}
                 className="absolute w-2 h-2 rounded-full"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  backgroundColor: [
-                    '#e86aa8',
-                    '#f89449',
-                    '#e04597',
-                    '#d23485',
-                    '#ffbe2a',
-                    '#eab324',
-                  ][Math.floor(Math.random() * 6)],
+                  left: `${seeded(i, 4, 100)}%`,
+                  top: `${seeded(i, 5, 100)}%`,
+                  backgroundColor: confettiColors[i % 6],
                 }}
                 animate={{
                   y: '100vh',
-                  x: `${(Math.random() - 0.5) * 200}px`,
+                  x: `${(seeded(i, 6, 200) - 100)}px`,
                   rotate: 360,
                 }}
                 transition={{
-                  duration: 3 + Math.random(),
+                  duration: 3 + (i % 3),
                   ease: 'easeOut',
                 }}
               />

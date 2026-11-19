@@ -10,15 +10,15 @@ async function getSiteSettings() {
 
   if (error) {
     return {
-      recipient_name: '[Her Name]',
+      recipient_name: 'My Princess',
       princess_title: 'Princess',
       welcome_message: 'Happy Princess Day! May your day be filled with joy, sparkles, and all the magical moments you deserve!',
-      letter_content: 'My dearest princess,\n\nToday is special not because of parties or presents, but because it is a celebration of YOU. You bring magic to every ordinary moment with your beautiful smile and kind heart.\n\nMay this day be as wonderful as you are.\n\nWith all my love,\n[Your Secret Admirer]'
+      letter_content: 'My dearest princess,\n\nToday is special not because of parties or presents, but because it is a celebration of YOU. You bring magic to every ordinary moment with your beautiful smile and kind heart.\n\nMay this day be as wonderful as you are.\n\nWith all my love,\nThe Royal Court'
     };
   }
 
   return data || {
-    recipient_name: '[Her Name]',
+    recipient_name: 'My Princess',
     princess_title: 'Princess',
     welcome_message: 'Happy Princess Day!',
     letter_content: 'Dear Princess,\n\nHappy Princess Day!'
