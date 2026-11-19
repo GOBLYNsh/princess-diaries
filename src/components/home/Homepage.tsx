@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
-import { Heart, Star, Flower, Sparkles, Mail, Camera, Book, Calendar, Gift, ArrowLeft } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BookOpen, Camera, Feather, Heart, Calendar, Gift, Sparkles, Home } from 'lucide-react';
 import { SiteSettings, Reason } from '@/types';
 import HomepageHeader from './HomepageHeader';
 import Envelope from './Envelope';
@@ -31,13 +31,12 @@ type Section = 'home' | 'envelope' | 'scrapbook' | 'gallery' | 'letter' | 'reaso
 export default function Homepage({ settings, reasons, surpriseMessages }: HomepageProps) {
   const [currentSection, setCurrentSection] = useState<Section>('home');
   const [isEnvelopeOpen, setIsEnvelopeOpen] = useState(false);
-  const [showCelebration, setShowCelebration] = useState(false);
   const [viewedSections, setViewedSections] = useState<Set<Section>>(new Set());
 
   // Track which sections have been viewed
   useEffect(() => {
     if (currentSection !== 'home') {
-      setViewedSections(prev => new Set(prev).add(currentSection));
+      setViewedSections((prev) => new Set(prev).add(currentSection));
     }
   }, [currentSection]);
 
@@ -56,15 +55,14 @@ export default function Homepage({ settings, reasons, surpriseMessages }: Homepa
   };
 
   const handleCelebrationComplete = () => {
-    setShowCelebration(false);
     setCurrentSection('home');
   };
 
-  // Animation variants
+  // Cinematic page transitions
   const pageVariants = {
-    initial: { opacity: 0, x: 100, transition: { duration: 0.3 } },
-    in: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-    out: { opacity: 0, x: -100, transition: { duration: 0.3 } },
+    initial: { opacity: 0, y: 15 },
+    in: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+    out: { opacity: 0, y: -15, transition: { duration: 0.3 } },
   };
 
   const sectionComponents = {
@@ -93,7 +91,7 @@ export default function Homepage({ settings, reasons, surpriseMessages }: Homepa
     scrapbook: (
       <ScrapbookSection
         recipientName={settings.recipient_name}
-        onBack={() => navigateToSection('envelope')}
+        onBack={() => navigateToSection('home')}
       />
     ),
     gallery: (
@@ -105,7 +103,7 @@ export default function Homepage({ settings, reasons, surpriseMessages }: Homepa
     letter: (
       <LetterSection
         settings={settings}
-        onBack={() => navigateToSection('scrapbook')}
+        onBack={() => navigateToSection('gallery')}
         onComplete={() => navigateToSection('reasons')}
       />
     ),
@@ -139,44 +137,55 @@ export default function Homepage({ settings, reasons, surpriseMessages }: Homepa
     ),
   };
 
+  const navItems: { key: Section; label: string; icon: any }[] = [
+    { key: 'home', label: 'Cover Page', icon: Home },
+    { key: 'scrapbook', label: 'The Gazette', icon: BookOpen },
+    { key: 'gallery', label: 'Portrait Gallery', icon: Camera },
+    { key: 'letter', label: 'Personal Letter', icon: Feather },
+    { key: 'reasons', label: 'Reasons Why', icon: Heart },
+    { key: 'timeline', label: 'Timeline', icon: Calendar },
+    { key: 'surprises', label: 'Little Treasures', icon: Gift },
+    { key: 'celebration', label: 'Celebration', icon: Sparkles },
+  ];
+
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-cream-50 via-blush-pink-50 to-champagne-100 overflow-x-hidden">
-      {/* Floating decorative elements */}
+    <div className="relative min-h-screen bg-ivory-100 overflow-x-hidden">
+      {/* Floating subtle romantic flecks */}
       <FloatingDecorations />
 
-      {/* Navigation indicators */}
-      <div className="fixed top-6 right-6 z-40 flex flex-col gap-3">
-        {Object.entries(sectionComponents).map(([key, _], index) => {
-          const section = key as Section;
-          const isActive = currentSection === section;
-          const hasVisited = viewedSections.has(section) || section === 'home';
+      {/* Luxury Editorial Chapter Navigation Dots (Top Right) */}
+      <nav
+        aria-label="Chapter navigation"
+        className="fixed top-6 right-6 z-40 flex items-center gap-1.5 p-1.5 bg-ivory-50/90 backdrop-blur-xs border border-burgundy-900/20 rounded-sm shadow-sm"
+      >
+        {navItems.map((item) => {
+          const isActive = currentSection === item.key;
+          const hasVisited = viewedSections.has(item.key) || item.key === 'home';
+          const Icon = item.icon;
 
           return (
             <button
-              key={section}
-              onClick={() => navigateToSection(section)}
-              className={`w-10 h-10 rounded-full transition-all duration-300 flex items-center justify-center ${
+              key={item.key}
+              onClick={() => navigateToSection(item.key)}
+              className={`p-2 rounded-xs transition-all duration-300 relative group flex items-center justify-center ${
                 isActive
-                  ? 'bg-primary-500 text-white shadow-lg scale-110'
+                  ? 'bg-burgundy-700 text-ivory-100 shadow-xs'
                   : hasVisited
-                    ? 'bg-white/70 hover:bg-white shadow-md'
-                    : 'bg-white/30 hover:bg-white/50'
+                    ? 'text-burgundy-900 hover:bg-champagne-100/80'
+                    : 'text-cocoa-400 hover:text-burgundy-800'
               }`}
-              title={section}
+              title={item.label}
             >
-              {section === 'home' && <Mail size={18} />}
-              {section === 'envelope' && <Mail size={18} />}
-              {section === 'scrapbook' && <Book size={18} />}
-              {section === 'gallery' && <Camera size={18} />}
-              {section === 'letter' && <Mail size={18} />}
-              {section === 'reasons' && <Heart size={18} />}
-              {section === 'timeline' && <Calendar size={18} />}
-              {section === 'surprises' && <Gift size={18} />}
-              {section === 'celebration' && <Sparkles size={18} />}
+              <Icon size={14} />
+
+              {/* Tooltip on hover */}
+              <span className="absolute right-full top-1/2 -translate-y-1/2 mr-2 px-2.5 py-1 bg-burgundy-950 text-ivory-100 text-[10px] font-sans uppercase tracking-widest rounded-xs opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap hidden sm:block">
+                {item.label}
+              </span>
             </button>
           );
         })}
-      </div>
+      </nav>
 
       {/* Main content with page transitions */}
       <AnimatePresence mode="wait">
@@ -192,7 +201,7 @@ export default function Homepage({ settings, reasons, surpriseMessages }: Homepa
         </motion.div>
       </AnimatePresence>
 
-      {/* Back to start button */}
+      {/* Back to Cover button */}
       {currentSection !== 'home' && currentSection !== 'celebration' && (
         <BackToStart onClick={() => navigateToSection('home')} />
       )}

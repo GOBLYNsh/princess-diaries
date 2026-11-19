@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Gift, Heart, Flower, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ArrowLeft, Gift, Heart, Sparkles, Flower2 } from 'lucide-react';
 
 interface SurprisesSectionProps {
   recipientName: string;
@@ -31,220 +30,204 @@ export default function SurprisesSection({
   };
 
   const handleHeartClick = () => {
-    setHeartClicks(prev => prev + 1);
-    if (heartClicks >= 3 && !giftOpened) {
-      setTimeout(() => setGiftOpened(true), 500);
-    }
+    setHeartClicks((prev) => prev + 1);
   };
 
   const handleBouquetHover = () => {
     if (!bouquetInteracted) {
-      setTimeout(() => setBouquetInteracted(true), 1000);
+      setTimeout(() => setBouquetInteracted(true), 600);
     }
   };
 
   const allCompleted = giftOpened && heartClicks >= 3;
 
   return (
-    <div className="min-h-screen p-4 md:p-8 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-blush-pink-50 via-cream-50 to-champagne-100" />
-
-      {/* Floating elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-pink-200/40"
-            style={{
-              left: `${(i * 17 + 11) % 100}%`,
-              top: `${(i * 23 + 7) % 100}%`,
-              fontSize: `${14 + (i % 8) * 3}px`,
-            }}
-            animate={{
-              y: [0, -40, 0],
-              rotate: [0, 360, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 5 + (i % 4),
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: i * 0.15,
-            }}
+    <div className="min-h-screen p-4 sm:p-8 md:p-14 bg-newspaper-paper text-cocoa-800 relative overflow-x-hidden flex flex-col justify-between">
+      <div className="max-w-5xl mx-auto w-full">
+        {/* Navigation Header */}
+        <div className="flex items-center justify-between border-b border-burgundy-900/25 pb-4 mb-10">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 px-3 py-1.5 border border-burgundy-900/25 hover:border-burgundy-900/60 bg-ivory-50 text-burgundy-900 rounded-sm text-xs uppercase tracking-widest font-sans transition-all"
           >
-            💫
-          </motion.div>
-        ))}
-      </div>
+            <ArrowLeft size={14} />
+            <span>Back</span>
+          </button>
 
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8 z-10 relative">
-        <motion.button
-          onClick={onBack}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-xs shadow-md hover:bg-white transition-all duration-300"
-          whileHover={{ x: -5 }}
-        >
-          <ArrowLeft size={20} className="text-primary-500" />
-          <span className="font-body text-sm">Back</span>
-        </motion.button>
+          <div className="text-center">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-vintageGold-600 font-sans block">
+              Chapter VI • Little Treasures
+            </span>
+            <h1 className="font-editorial text-2xl sm:text-3xl md:text-4xl text-burgundy-900 font-bold">
+              Interactive Surprises
+            </h1>
+            <p className="font-cormorant italic text-xs sm:text-sm text-cocoa-600 mt-1">
+              Delightful little interactive keepsakes prepared for {recipientName}
+            </p>
+          </div>
 
-        <motion.h1
-          className="text-3xl font-serif text-warm-brown-700 text-center"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          Interactive Surprises
-        </motion.h1>
-      </div>
-
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-        {/* Gift Box */}
-        <motion.div className="flex flex-col items-center">
-          <motion.div
-            className="bg-gradient-to-br from-primary-400 to-secondary-500 rounded-2xl p-8 cursor-pointer shadow-2xl mb-6"
-            onClick={handleGiftClick}
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            whileTap={{ scale: 0.95 }}
+          <button
+            onClick={onComplete}
+            className="text-xs font-sans uppercase tracking-widest text-burgundy-800 hover:text-burgundy-900 underline underline-offset-4"
           >
-            <div className="bg-white rounded-xl p-6 shadow-inner">
-              <Gift size={48} className="mx-auto text-primary-500" />
-              <div className="text-center mt-4">
-                <h3 className="font-serif text-xl text-warm-brown-700">Gift Box</h3>
-                <p className="text-sm text-warm-brown-500 font-body">Open it!</p>
+            Grand Finale →
+          </button>
+        </div>
+
+        {/* 3 Interactive Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 my-8">
+          {/* 1. Gift Box */}
+          <div className="bg-ivory-50 border border-burgundy-900/20 p-6 sm:p-8 shadow-editorial rounded-sm text-center flex flex-col justify-between relative group">
+            <div className="w-16 h-4 washi-tape absolute -top-2 left-8 rotate-[-2deg]" />
+
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-vintageGold-700 font-sans mb-1">
+                KEEPSAKE N° 01
+              </div>
+              <h3 className="font-editorial text-xl text-burgundy-900 font-bold mb-4">
+                The Royal Gift Box
+              </h3>
+
+              <motion.div
+                onClick={handleGiftClick}
+                className="cursor-pointer my-4 p-6 bg-champagne-100/70 border border-burgundy-900/15 rounded-sm shadow-sm inline-block w-full hover:border-vintageGold-500 transition-all"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <div className="text-5xl mb-3">🎁</div>
+                <div className="font-sans text-xs uppercase tracking-widest text-burgundy-800 font-medium">
+                  {giftOpened ? 'Parcel Unwrapped' : 'Tap to Open Parcel'}
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="min-h-[70px] flex items-center justify-center">
+              <AnimatePresence>
+                {giftOpened ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-3 bg-white border border-dashed border-burgundy-700/40 text-xs font-cormorant italic text-burgundy-900 text-center"
+                  >
+                    &ldquo;{surpriseMessages.gift_open || 'A royal parcel overflowing with love, smiles, and endless joy.'}&rdquo;
+                  </motion.div>
+                ) : (
+                  <p className="font-handwriting text-base text-dusty-rose-600">
+                    a little surprise awaits inside ✨
+                  </p>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* 2. Virtual Bouquet */}
+          <div
+            onMouseEnter={handleBouquetHover}
+            className="bg-ivory-50 border border-burgundy-900/20 p-6 sm:p-8 shadow-editorial rounded-sm text-center flex flex-col justify-between relative group"
+          >
+            <div className="w-16 h-4 washi-tape absolute -top-2 right-8 rotate-[2deg]" />
+
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-vintageGold-700 font-sans mb-1">
+                KEEPSAKE N° 02
+              </div>
+              <h3 className="font-editorial text-xl text-burgundy-900 font-bold mb-4">
+                Fresh Botanical Bouquet
+              </h3>
+
+              <div className="my-4 p-6 bg-champagne-100/70 border border-burgundy-900/15 rounded-sm shadow-sm">
+                <div className="text-5xl mb-3">💐</div>
+                <div className="font-sans text-xs uppercase tracking-widest text-burgundy-800 font-medium">
+                  Handpicked Florals
+                </div>
               </div>
             </div>
-          </motion.div>
 
-          <AnimatePresence>
-            {giftOpened && (
-              <motion.div
-                className="bg-white rounded-xl p-6 shadow-xl text-center max-w-xs"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-              >
-                <p className="text-primary-600 font-serif text-base">{surpriseMessages.gift_open}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Virtual Bouquet */}
-        <motion.div
-          className="flex flex-col items-center"
-          onHoverStart={handleBouquetHover}
-        >
-          <motion.div
-            className="bg-white rounded-2xl p-8 shadow-2xl mb-6 cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            animate={bouquetInteracted ? { rotate: [0, -5, 5, 0] } : {}}
-            transition={{ duration: 2, repeat: bouquetInteracted ? Infinity : 0 }}
-          >
-            <div className="text-6xl mb-4">🌸🌹🌺🌷🌻</div>
-            <h3 className="font-serif text-xl text-warm-brown-700">Bouquet</h3>
-            <p className="text-sm text-warm-brown-500 font-body">Hover to receive flowers</p>
-          </motion.div>
-
-          <AnimatePresence>
-            {bouquetInteracted && (
-              <motion.div
-                className="bg-pink-50 rounded-xl p-4 shadow-xl text-center max-w-xs"
-                initial={{ scale: 0, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0, opacity: 0, y: -20 }}
-              >
-                <p className="text-secondary-600 font-body text-sm">{surpriseMessages.bouquet_interaction}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Hearts */}
-        <motion.div className="flex flex-col items-center">
-          <div className="bg-white rounded-2xl p-8 shadow-2xl mb-6">
-            <div className="text-center mb-4">
-              <h3 className="font-serif text-xl text-warm-brown-700 mb-2">Click Hearts</h3>
-              <p className="text-sm text-warm-brown-500 font-body">
-                {heartClicks}/5 clicks
-              </p>
-            </div>
-
-            <div className="grid grid-cols-3 gap-2">
-              {[...Array(5)].map((_, i) => (
-                <motion.button
-                  key={i}
-                  onClick={handleHeartClick}
-                  className="w-12 h-12 rounded-full flex items-center justify-center cursor-pointer transition-all"
-                  whileHover={{ scale: 1.2 }}
-                  whileTap={{ scale: 0.8 }}
-                  animate={heartClicks > i ? { scale: [1, 1.3, 1], backgroundColor: '#e86aa8' } : {}}
-                >
-                  <Heart
-                    size={24}
-                    fill={heartClicks > i ? '#fff' : '#e86aa8'}
-                    className="transition-all"
-                  />
-                </motion.button>
-              ))}
+            <div className="min-h-[70px] flex items-center justify-center">
+              <AnimatePresence>
+                {bouquetInteracted ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-3 bg-white border border-dashed border-burgundy-700/40 text-xs font-cormorant italic text-burgundy-900 text-center"
+                  >
+                    &ldquo;{surpriseMessages.bouquet_interaction || 'Roses, peonies, and wildflowers picked in honor of her grace.'}&rdquo;
+                  </motion.div>
+                ) : (
+                  <p className="font-handwriting text-base text-dusty-rose-600">
+                    hover to receive your bouquet 🌸
+                  </p>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
-          <AnimatePresence>
-            {heartClicks >= 3 && (
-              <motion.div
-                className="bg-white rounded-xl p-4 shadow-xl text-center max-w-xs"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-              >
-                <p className="text-primary-600 font-serif text-sm">{surpriseMessages.heart_click}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+          {/* 3. Click Hearts */}
+          <div className="bg-ivory-50 border border-burgundy-900/20 p-6 sm:p-8 shadow-editorial rounded-sm text-center flex flex-col justify-between relative group">
+            <div className="w-16 h-4 washi-tape absolute -top-2 left-1/2 -translate-x-1/2 rotate-[-1deg]" />
 
-      {/* Continue button */}
-      <AnimatePresence>
-        {allCompleted && (
-          <motion.button
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-vintageGold-700 font-sans mb-1">
+                KEEPSAKE N° 03
+              </div>
+              <h3 className="font-editorial text-xl text-burgundy-900 font-bold mb-4">
+                Tokens of Affection
+              </h3>
+
+              <div className="my-4 p-4 bg-champagne-100/70 border border-burgundy-900/15 rounded-sm shadow-sm">
+                <div className="grid grid-cols-5 gap-1.5 justify-center mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.button
+                      key={i}
+                      onClick={handleHeartClick}
+                      className={`w-9 h-9 rounded-sm flex items-center justify-center transition-all ${
+                        heartClicks > i
+                          ? 'bg-burgundy-700 text-ivory-100 shadow-sm'
+                          : 'bg-white border border-burgundy-900/20 text-cocoa-400 hover:text-burgundy-700'
+                      }`}
+                      whileHover={{ scale: 1.15 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <Heart size={16} fill={heartClicks > i ? 'currentColor' : 'none'} />
+                    </motion.button>
+                  ))}
+                </div>
+                <div className="font-sans text-[11px] text-cocoa-500 uppercase tracking-wider">
+                  {Math.min(heartClicks, 5)} / 5 Hearts Gathered
+                </div>
+              </div>
+            </div>
+
+            <div className="min-h-[70px] flex items-center justify-center">
+              <AnimatePresence>
+                {heartClicks >= 3 ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-3 bg-white border border-dashed border-burgundy-700/40 text-xs font-cormorant italic text-burgundy-900 text-center"
+                  >
+                    &ldquo;{surpriseMessages.heart_click || 'Every single heart belongs to you, always.'}&rdquo;
+                  </motion.div>
+                ) : (
+                  <p className="font-handwriting text-base text-dusty-rose-600">
+                    tap the hearts to collect them ♡
+                  </p>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        {/* Grand Finale Trigger Banner */}
+        <div className="mt-10 pt-6 border-t border-burgundy-900/20 text-center">
+          <button
             onClick={onComplete}
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-primary-400 to-secondary-500 hover:from-primary-500 hover:to-secondary-600 text-white px-8 py-4 rounded-full shadow-2xl font-body text-lg transition-all duration-300 hover:scale-105"
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
+            className="px-10 py-4 bg-burgundy-700 hover:bg-burgundy-800 text-ivory-100 font-sans text-xs uppercase tracking-[0.2em] rounded-sm transition-all shadow-editorial hover:shadow-2xl"
           >
-            Continue to Celebration
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      {/* Completion indicator */}
-      {allCompleted && (
-        <motion.div
-          className="fixed top-8 left-1/2 -translate-x-1/2 z-50 bg-white rounded-full px-6 py-3 shadow-lg"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: 'spring' }}
-        >
-          <div className="flex items-center gap-2">
-            <div className="flex gap-1">
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="w-2 h-2 bg-secondary-400 rounded-full"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1, repeat: 1, delay: i * 0.2 }}
-                />
-              ))}
-            </div>
-            <span className="font-serif text-sm text-primary-600">Surprise completed!</span>
-          </div>
-        </motion.div>
-      )}
+            Enter The Grand Celebration 👑
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Home } from 'lucide-react';
 
 interface BackToStartProps {
   onClick: () => void;
@@ -10,26 +11,16 @@ export default function BackToStart({ onClick }: BackToStartProps) {
   return (
     <motion.button
       onClick={onClick}
-      className="fixed top-6 left-6 z-40 w-12 h-12 bg-white/80 backdrop-blur-xs rounded-full shadow-lg flex items-center justify-center hover:bg-white transition-all duration-300"
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      initial={{ opacity: 0, scale: 0 }}
+      className="fixed top-6 left-6 z-40 px-3.5 py-2 bg-ivory-50/90 backdrop-blur-xs border border-burgundy-900/25 rounded-sm shadow-sm flex items-center gap-2 hover:bg-white text-burgundy-900 transition-all font-sans text-xs uppercase tracking-wider"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
+      title="Return to Cover Page"
     >
-      <div className="w-6 h-6 flex flex-col items-center justify-center">
-        <motion.div
-          className="w-4 h-0.5 bg-primary-500 rounded-full"
-          animate={{ rotate: [0, -90, -90] }}
-          transition={{ duration: 0.3 }}
-        />
-        <motion.div
-          className="w-0.5 h-4 bg-primary-500 rounded-full"
-          initial={{ y: -8, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        />
-      </div>
+      <Home size={14} className="text-vintageGold-600" />
+      <span className="hidden sm:inline">Cover Page</span>
     </motion.button>
   );
 }

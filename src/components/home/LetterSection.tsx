@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Send, Heart, Star, Flower, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ArrowLeft, Heart, Feather, Sparkles, Send } from 'lucide-react';
 import { SiteSettings } from '@/types';
 
 interface LetterSectionProps {
@@ -14,224 +13,141 @@ interface LetterSectionProps {
 
 export default function LetterSection({ settings, onBack, onComplete }: LetterSectionProps) {
   const [isLetterOpen, setIsLetterOpen] = useState(false);
-  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>([]);
 
-  useEffect(() => {
-    // Create floating particles
-    const newParticles = Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      delay: Math.random() * 5,
-    }));
-    setParticles(newParticles);
+  const recipient = settings.recipient_name || 'My Princess';
+  const defaultLetter = `My dearest ${recipient},
 
-    // Auto-open letter after delay
-    const timer = setTimeout(() => {
-      setIsLetterOpen(true);
-      setTimeout(() => {
-        setIsLetterOpen(true);
-        setTimeout(onComplete, 1000);
-      }, 3000);
-    }, 1000);
+Today is special not because of parties or presents, but because it is a celebration of YOU. You bring magic to every ordinary moment with your beautiful smile, your deep empathy, and your gentle, radiant heart.
 
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+In a fast and hurried world, your presence feels like a slow morning, a warm cup of coffee, and soft sunlight after days of winter rain. You make kindness look effortless and grace look natural.
+
+May this day surround you with all the warmth, joy, and wonder you so generously give to everyone around you.
+
+With the highest admiration and all my love,
+The Royal Court`;
+
+  const letterText = settings.letter_content || defaultLetter;
 
   return (
-    <div className="min-h-screen p-4 md:p-8 relative overflow-hidden">
-      {/* Background with parchment texture */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIHGpdHRlcj0ibGluZWFyIj4KICAgIDxzZWNtYSAxMDAlIiBvcGFjaXR5PSIwLjAxIiBmaWxsPSIjMDBhMTAwIi8+CiAgICA8c2Vjb25kYXJ5IG5hbWU9ImxpbmVhciIgbWluPD4KICAgICAgICA8c2Vjb25kYXJ5IHRodW1iIGluPSI0Ii8+CiAgICA8L3NlY29uZGFyeT4KICA8L2ZpbHRlcj4KICA8cm9jdGxliuKApCI+CiAgICA8cm9jdGxsIHc9IjEwMCIgeD0iMCIgeT0iMCIgaGVpZ2h0PSIxMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiLz4KICA8L3JvY3Rsb3k+Cjwvc3ZnPgo=')] bg-repeat" />
-
-      {/* Floating particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {particles.map((particle) => (
-          <motion.div
-            key={particle.id}
-            className="absolute text-rosy-300/30"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              fontSize: `${14 + (particle.id % 6) * 3}px`,
-            }}
-            animate={{
-              y: [0, -50, 0],
-              rotate: [0, 360, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 6 + (particle.id % 4),
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: particle.delay,
-            }}
+    <div className="min-h-screen p-4 sm:p-8 md:p-14 bg-newspaper-paper text-cocoa-800 relative overflow-x-hidden flex flex-col justify-between">
+      {/* Decorative Outer Border */}
+      <div className="max-w-4xl mx-auto w-full">
+        {/* Header Navigation */}
+        <div className="flex items-center justify-between border-b border-burgundy-900/25 pb-4 mb-8">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 px-3 py-1.5 border border-burgundy-900/25 hover:border-burgundy-900/60 bg-ivory-50 text-burgundy-900 rounded-sm text-xs uppercase tracking-widest font-sans transition-all"
           >
-            {particle.id % 3 === 0 && '✨'}
-            {particle.id % 3 === 1 && '⭐'}
-            {particle.id % 3 === 2 && '💫'}
-          </motion.div>
-        ))}
-      </div>
+            <ArrowLeft size={14} />
+            <span>Back</span>
+          </button>
 
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8 z-10 relative">
-        <motion.button
-          onClick={onBack}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-xs shadow-md hover:bg-white transition-all duration-300"
-          whileHover={{ x: -5 }}
-        >
-          <ArrowLeft size={20} className="text-primary-500" />
-          <span className="font-body text-sm">Back</span>
-        </motion.button>
+          <div className="text-center">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-vintageGold-600 font-sans block">
+              Chapter III • Private Dispatch
+            </span>
+            <h1 className="font-editorial text-2xl sm:text-3xl text-burgundy-900 font-bold">
+              A Personal Letter
+            </h1>
+          </div>
 
-        <motion.h1
-          className="text-3xl font-serif text-warm-brown-700 text-center"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          Letter to {settings.recipient_name || 'My Princess'}
-        </motion.h1>
+          <button
+            onClick={onComplete}
+            className="text-xs font-sans uppercase tracking-widest text-burgundy-800 hover:text-burgundy-900 underline underline-offset-4"
+          >
+            Next: Reasons →
+          </button>
+        </div>
 
-        <div className="w-24" />
-      </div>
-
-      {/* Letter envelope and content */}
-      <div className="relative z-10 min-h-[60vh] flex items-center justify-center">
-        <AnimatePresence>
-          {isLetterOpen ? (
-            <motion.div
-              className="relative"
-              initial={{ scale: 0.8, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: -50 }}
-              transition={{ duration: 0.8, type: 'spring' }}
-            >
-              {/* Letter paper */}
+        {/* Unopened vs Opened Presentation */}
+        <div className="my-auto py-6 sm:py-10">
+          <AnimatePresence mode="wait">
+            {!isLetterOpen ? (
               <motion.div
-                className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl max-w-2xl mx-4 overflow-hidden letter-shadow"
-                style={{
-                  clipPath: 'polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%)',
-                }}
+                key="sealed"
+                className="text-center max-w-md mx-auto"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.5 }}
               >
-                {/* Watermark corners */}
-                <div className="absolute top-6 left-6 text-2xl opacity-10">🌸</div>
-                <div className="absolute top-6 right-6 text-2xl opacity-10 transform -rotate-45">📜</div>
-                <div className="absolute bottom-6 left-6 text-2xl opacity-10">💖</div>
-                <div className="absolute bottom-6 right-6 text-2xl opacity-10 transform rotate-45">⭐</div>
-
-                <div className="relative z-10">
-                  <div className="text-center mb-8">
-                    <motion.div
-                      className="inline-block mb-4"
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <Flower className="w-16 h-16 text-secondary-400 mx-auto" />
-                    </motion.div>
-                    <h2 className="text-3xl font-serif text-primary-600 mb-2">
-                      My Dear {settings.recipient_name || 'Beloved Princess'},
-                    </h2>
-                    <p className="text-secondary-500 font-body text-sm">
-                      {new Date().toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
-                    </p>
+                {/* Airmail Wax Seal Envelope Box */}
+                <div
+                  onClick={() => setIsLetterOpen(true)}
+                  className="group cursor-pointer bg-ivory-50 border-2 border-burgundy-900/30 p-8 sm:p-12 shadow-editorial hover:shadow-2xl transition-all duration-300 relative rounded-sm hover:-translate-y-1"
+                >
+                  {/* Stamp top right */}
+                  <div className="absolute top-4 right-4 w-14 h-16 border border-dashed border-burgundy-700 bg-champagne-100 flex flex-col items-center justify-center p-1 rotate-3">
+                    <span className="text-[8px] font-sans text-burgundy-900 tracking-wider">ROYAL</span>
+                    <span className="text-xl">✉️</span>
+                    <span className="text-[7px] font-serif text-cocoa-600">AIRMAIL</span>
                   </div>
 
-                  <motion.div
-                    className="space-y-6 text-warm-brown-700 font-body leading-relaxed"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                  >
-                    <p className="text-xl">
-                      {settings.letter_content || `My dearest princess,
-
-Today is special because it celebrates the amazing light you bring into every life you touch. Your presence transforms ordinary moments into magical memories, and your kindness makes the world a brighter place.
-
-Your beautiful smile has the power to turn any frown upside down, and your gentle heart inspires everyone who knows you. Today, know that you are cherished, appreciated, and deeply loved.
-
-May this Princess Day be as wonderful as you are - filled with laughter, delight, and all the happiness you deserve.
-
-With all my love,
-The Royal Court`}
-                    </p>
-
-                    <div className="border-t border-warm-brown-200 pt-6">
-                      <p className="text-right">
-                        <span className="font-serif text-2xl text-primary-500">💖</span>
-                      </p>
-                      <p className="text-right text-3xl font-serif text-secondary-500 mt-2">
-                        Forever Yours
-                      </p>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-
-              {/* Decorations */}
-              <motion.div
-                className="absolute -top-8 -right-8 text-4xl"
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
-                🌸
-              </motion.div>
-
-              <motion.div
-                className="absolute -bottom-8 -left-8 text-4xl"
-                animate={{ rotate: [0, -5, 5, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
-                💕
-              </motion.div>
-            </motion.div>
-          ) : (
-            <div className="text-center">
-              <motion.div
-                className="inline-block w-48 h-48 bg-gradient-to-br from-primary-200 to-secondary-300 rounded-full flex items-center justify-center cursor-pointer mb-8 shadow-2xl"
-                whileHover={{ scale: 1.05, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsLetterOpen(true)}
-                animate={{
-                  boxShadow: [
-                    '0 0 0 0 rgba(232, 106, 168, 0.4)',
-                    '0 0 0 30px rgba(232, 106, 168, 0)',
-                    '0 0 0 0 rgba(232, 106, 168, 0)',
-                  ],
-                }}
-              >
-                <div className="text-center">
-                  <Mail size={48} className="mx-auto mb-2 text-white" />
-                  <span className="block text-sm font-body text-white mt-2">
-                    Open Letter
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-vintageGold-600 font-sans block mb-2">
+                    SEALED ROYAL DISPATCH
                   </span>
+
+                  <h3 className="font-editorial text-3xl sm:text-4xl text-burgundy-900 font-bold mb-3">
+                    For {recipient}
+                  </h3>
+
+                  <p className="font-cormorant italic text-cocoa-600 text-lg mb-8">
+                    &ldquo;Words penned with affection, sealed by royal decree.&rdquo;
+                  </p>
+
+                  {/* Wax Seal Button */}
+                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-burgundy-700 hover:bg-burgundy-800 text-ivory-100 font-sans text-xs uppercase tracking-widest rounded-sm transition-all shadow-md group-hover:scale-105">
+                    <Feather size={14} className="text-vintageGold-300" />
+                    <span>Break the Seal & Read</span>
+                  </div>
+                </div>
+
+                <p className="font-handwriting text-xl text-dusty-rose-600 mt-4">
+                  click to unfold your letter ✍︎
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="open"
+                className="bg-ivory-50 border border-burgundy-900/30 p-6 sm:p-12 shadow-2xl relative rounded-sm max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                {/* Washi tape on top */}
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-28 h-5 washi-tape rotate-[-1deg] border-x border-cocoa-300/40" />
+
+                {/* Letter Header */}
+                <div className="flex items-center justify-between border-b border-burgundy-900/20 pb-4 mb-8 text-xs font-serif italic text-cocoa-500">
+                  <span>From The Royal Desk</span>
+                  <span className="font-sans text-[10px] uppercase tracking-widest text-vintageGold-700">
+                    CERTIFIED CONFIDENTIAL
+                  </span>
+                  <span>{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                </div>
+
+                {/* Letter Body (Parchment typography) */}
+                <div className="font-cormorant text-xl sm:text-2xl text-cocoa-800 leading-relaxed space-y-6 whitespace-pre-line">
+                  {letterText}
+                </div>
+
+                {/* Sign-off */}
+                <div className="mt-10 pt-6 border-t border-dashed border-burgundy-900/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="font-handwriting text-2xl text-burgundy-700">
+                    Forever celebrating you ♡
+                  </div>
+
+                  <button
+                    onClick={onComplete}
+                    className="px-6 py-2.5 bg-burgundy-700 hover:bg-burgundy-800 text-ivory-100 font-sans text-xs uppercase tracking-widest rounded-sm transition-all shadow-sm"
+                  >
+                    Continue to Reasons →
+                  </button>
                 </div>
               </motion.div>
-
-              <h3 className="text-xl font-serif text-warm-brown-600 mb-4">
-                A Letter Just For You
-              </h3>
-              <p className="text-warm-brown-500 font-body max-w-md mx-auto">
-                Click the envelope to read a special message written just for {settings.recipient_name || 'you'}.
-              </p>
-            </div>
-          )}
-        </AnimatePresence>
-
-        {/* Continue button */}
-        <motion.button
-          onClick={onComplete}
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-10 bg-gradient-to-r from-primary-400 to-secondary-500 hover:from-primary-500 hover:to-secondary-600 text-white px-8 py-4 rounded-full shadow-2xl font-body text-lg transition-all duration-300 hover:scale-105"
-          whileHover={{ y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.5 }}
-        >
-          Continue
-        </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
